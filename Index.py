@@ -1,11 +1,12 @@
 from pytube import YouTube
 import re
 from flask import Flask, request, jsonify, send_file 
-
+from flask_cors import CORS
 app = Flask(__name__)
-@app.route('/ytt', methods=['GET'])
+CORS(app)
+@app.route('/', methods=['GET'])
 def read_item():
-	return request.args.get('yt')
+	return "request.args.get()"
 @app.route('/yt', methods=['GET'])
 def read_itemm():
 	video = YouTube(request.args.get('yt'))
@@ -35,14 +36,11 @@ def read_itemm():
 	if "720p" in resdict.keys():
 		mid=resdict['720p']
 		print(resdict['720p'])
-		resp7=flask.Response(mid)
-		resp7.headers['okayy'] = 'yes'
 		return f"{mid}&title={title}"
 	else:
 		print(resdict['360p'])
 		low=resdict['360p']
 		print("360 bro")
-		resp3=flask.Response(low)
-		return f"{low}&title={title}",204
+		return f"{low}&title={title}"
 				
 if __name__ == '__main__': app.run(debug=False)
