@@ -1,12 +1,47 @@
 from pytube import YouTube
 import re
 from flask import Flask, request, jsonify, send_file 
-#from flask_cors import CORS
+from flask_cors import CORS
+from twilio.rest import Client
+import requests
+import json
+accurl = 'http://prepaid.desco.org.bd/api/tkdes/customer/getBalance?accountNo=14002520&meterNo='
+account_sid = 'ACd79ad2ea41e6f1dc51c847c0bed217e5'
+auth_token = '7993d37d5fecc2ed87aca8601d295d19'
+client = Client(account_sid, auth_token)
+
+
+    
+    
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
+
+@app.route("/call",methods=[ 'GET'])
+def hello():
+    call = client.calls.create(
+    to='+8801703625690',  # Destination phone number
+    from_='+18605984143',  # Your Twilio phone number
+    url='http://your-server.com/twiml')
+    print(call.sid)
+    return call.sid
+
+@app.route("/voice", methods=['GET', 'POST'])
+def answer_call():
+    resp = VoiceResponse()
+    resp.say("Thank you for calling! Have a great day.", voice='Polly.Amy')
+    return str(resp)
 @app.route('/', methods=['GET'])
 def read_item():
 	return "request.args.get()"
+@app.route('/cheak',methods=['GET'])
+def rr():
+	response1 = requests.get(accurl)
+	print(json.loads(response1.text)['data']['balance'] )
+	
+	if(json.loads(response1.text)['data']['balance'] < 80):
+		response2 = requests.get('https://pipbd.cyclic.app/call')
+		return response2.text
+	return json.loads(response1.text)['data']['balance']
 @app.route('/yt', methods=['GET'])
 def read_itemm():
 	video = YouTube(request.args.get('yt'))
