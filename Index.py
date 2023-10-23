@@ -41,7 +41,7 @@ def rr():
 	if(json.loads(response1.text)['data']['balance'] < 80):
 		response2 = requests.get('https://pipbd.cyclic.app/call')
 		return response2.text
-	return json.loads(response1.text)['data']['balance']
+	return str(json.loads(response1.text)['data']['balance'])
 @app.route('/yt', methods=['GET'])
 def read_itemm():
 	video = YouTube(request.args.get('yt'))
