@@ -5,7 +5,6 @@ from flask_cors import CORS
 from twilio.rest import Client
 import requests
 import json
-from telethon.sync import TelegramClient
 import threading
 import asyncio
 from yt_dlp import YoutubeDL
@@ -14,7 +13,7 @@ from yt_dlp import YoutubeDL
 accurl = 'http://prepaid.desco.org.bd/api/tkdes/customer/getBalance?accountNo=14002520&meterNo='
 account_sid = 'ACd79ad2ea41e6f1dc51c847c0bed217e5'
 auth_token = 'f3e3ed1de8917ead69a8cbafd8f7eb92'
-client = Client(account_sid, auth_token)
+
 
 
     
@@ -26,7 +25,7 @@ api_id = '28863345'
 api_hash = '0dae6aefb121ac09f5c2d07f09493452'
 phone_number = '+8801703625690'
 
-client = TelegramClient('key', api_id, api_hash)
+
 
 
 async def fn():
