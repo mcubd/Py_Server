@@ -86,7 +86,7 @@ def rrrr():
 	return str(res.status_code)+'-----------'+res.text
 
 
-'''
+
 @app.route('/yt2', methods=['GET'])
 def read_itemmn():
     url = request.args.get('yt')
@@ -104,7 +104,8 @@ def read_itemmn():
             return  f"{urls_720p[0]}&title={info_dict['title']}"
         elif(len(urls_360p)>0):
             return  f"{urls_360p[0]}&title={info_dict['title']}"
-'''
+
+
 @app.route('/yt', methods=['GET'])
 def read_itemm():
 	video = YouTube(request.args.get('yt'),use_oauth=True, allow_oauth_cache=True)
