@@ -7,7 +7,7 @@ import requests
 import json
 import threading
 import asyncio
-from yt_dlp import YoutubeDL
+
 
 
 accurl = 'http://prepaid.desco.org.bd/api/tkdes/customer/getBalance?accountNo=14002520&meterNo='
@@ -28,28 +28,6 @@ phone_number = '+8801703625690'
 
 
 
-async def fn():
-    async with client:
-        # Find Sakib's chat
-        dialog = await client.get_input_entity('@SHADHINA') 
-        
-        msgs = await client.get_messages(dialog, limit=1)
-
-        for msg in msgs:
-            print(msg.text)
-            # bd_tz = timezone('Asia/Dhaka')
-            utc_time = msg.date
-            # bd_time = utc_time.astimezone(bd_tz)
-            print(msg.date)
-            return msg.date.timestamp()
-            # print(f"{bd_time.strftime('%I:%M%p')}")
-            # current_time = datetime.now()
-            # formatted_time = current_time.strftime("%I:%M")  # Prints time in HH:MM:SS format
-            # print("date.now:"+ formatted_time)
-
-@app.route('/tmsg')
-def tmsg():
-    return str(loop.run_until_complete(fn()))
 
 
 
@@ -87,28 +65,9 @@ def rrrr():
 
 
 
-@app.route('/yt2', methods=['GET'])
-def read_itemmn():
-    url = request.args.get('yt')
-    ydl_opts = {
-        'cookiefile': './cookies.txt'
-    }
-
-    with YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(url, download=False)
-        arr = info_dict['formats']
-        urls_720p = [obj.get("url") for obj in arr if obj.get("format_id") == "22"]
-        urls_360p = [obj.get("url") for obj in arr if obj.get("format_id") == "18"]
-
-        if(len(urls_720p)>0):
-            return  f"{urls_720p[0]}&title={info_dict['title']}"
-        elif(len(urls_360p)>0):
-            return  f"{urls_360p[0]}&title={info_dict['title']}"
-
-
 @app.route('/yt', methods=['GET'])
 def read_itemm():
-	video = YouTube(request.args.get('yt'),use_oauth=True, allow_oauth_cache=True)
+	video = YouTube(request.args.get('yt'))
 	video_streams = video.streams.all()
 	title=video_streams[2].title
 	text = "This is a sample text."
