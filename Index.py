@@ -54,7 +54,7 @@ def rr():
 	print(json.loads(response1.text)['data']['balance'] )
 	
 	if(json.loads(response1.text)['data']['balance'] < 80):
-		response2 = requests.get('https://pipbd.cyclic.app/call')
+		#response2 = requests.get('https://pipbd.cyclic.app/call')
 		return response2.text
 
 @app.route('/sms',methods=['GET'])
